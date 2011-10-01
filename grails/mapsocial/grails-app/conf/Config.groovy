@@ -48,7 +48,7 @@ log4j = {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
 
-    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+    warn  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 	       'org.codehaus.groovy.grails.web.pages', //  GSP
 	       'org.codehaus.groovy.grails.web.sitemesh', //  layouts
 	       'org.codehaus.groovy.grails."web.mapping.filter', // URL mapping
@@ -64,3 +64,10 @@ log4j = {
 
 
      
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.mappu.Person'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.mappu.PersonAuthority'
+grails.plugins.springsecurity.authority.className = 'org.mappu.Authority'
+//grails.plugins.springsecurity.dao.reflectionSaltSourceProperty = 'username'
+//grails.plugins.springsecurity.password.algorithm='SHA-512'
+
