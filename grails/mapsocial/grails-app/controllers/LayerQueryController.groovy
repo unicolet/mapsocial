@@ -1,3 +1,6 @@
+import grails.plugins.springsecurity.Secured
+
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class LayerQueryController {
 
 	def lq2map = {t ->

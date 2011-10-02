@@ -1,5 +1,7 @@
 package org.mappu
+import grails.plugins.springsecurity.Secured
 
+@Secured(['ROLE_ADMIN'])
 class PersonController {
     def scaffold = org.mappu.Person
 

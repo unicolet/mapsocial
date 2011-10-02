@@ -2,6 +2,9 @@ import grails.converters.JSON
 import java.util.Date
 import java.text.SimpleDateFormat
 
+import grails.plugins.springsecurity.Secured
+
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class CommentController {
 	
 	def getDateAsISO8601String(date) {

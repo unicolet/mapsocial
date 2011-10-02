@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Import;
+
 import grails.converters.JSON
 
 import javax.servlet.http.HttpServletResponse
@@ -11,6 +13,8 @@ import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import javax.servlet.http.Cookie
+import org.mappu.Person
 
 class LoginController {
 
@@ -122,7 +126,9 @@ class LoginController {
 	 * The Ajax success redirect url.
 	 */
 	def ajaxSuccess = {
-		render([success: true, username: springSecurityService.authentication.name] as JSON)
+		def user=Person.findByUsername(springSecurityService.authentication.name)
+		response.addCookie(new Cookie("JSESSIONID",session.getId()))
+		render([success: true, guid: user.id, username: springSecurityService.authentication.name] as JSON)
 	}
 
 	/**

@@ -3,6 +3,10 @@ import com.vividsolutions.jts.geom.*
 import com.vividsolutions.jts.io.*
 import com.vividsolutions.jts.operation.overlay.snap.*
 
+import grails.plugins.springsecurity.Secured
+
+
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class JtsController {
 	def exec = {
 		def pm = new PrecisionModel(PrecisionModel.FLOATING_SINGLE);
