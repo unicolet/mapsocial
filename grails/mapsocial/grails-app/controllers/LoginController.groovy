@@ -128,7 +128,7 @@ class LoginController {
 	def ajaxSuccess = {
 		def user=Person.findByUsername(springSecurityService.authentication.name)
 		response.addCookie(new Cookie("JSESSIONID",session.getId()))
-		render([success: true, guid: user.id, username: springSecurityService.authentication.name] as JSON)
+		render([success: true, guid: user.id, username: springSecurityService.authentication.name,  authenticated:true] as JSON)
 	}
 
 	/**
@@ -136,5 +136,17 @@ class LoginController {
 	 */
 	def ajaxDenied = {
 		render([error: 'access denied'] as JSON)
+	}
+	
+	/**
+	 * Return user info
+	 */
+	def userInfo = {
+		if (isLoggedIn()) {
+			def user = getAuthenticatedUser()
+			render([success: true, guid: user.id, username: user.username, authenticated:true] as JSON)
+		} else {
+			render([error: "Not authenticated"] as JSON)
+		}
 	}
 }
