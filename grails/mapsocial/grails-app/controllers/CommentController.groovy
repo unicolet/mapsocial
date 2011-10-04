@@ -17,6 +17,7 @@ class CommentController {
     def social2map = {t ->
         [guid: t.id,
          tags: t.tags,
+         username: t.username,
          starred: t.starred]
     }
     
@@ -24,6 +25,7 @@ class CommentController {
         [guid: t.id,
          text: t.text,
          social: t.social,
+         username: t.username,
          dateCreated: getDateAsISO8601String(t.dateCreated),
          lastUpdated: getDateAsISO8601String(t.lastUpdated) ]
     }
@@ -85,6 +87,7 @@ class CommentController {
         }
         if (!comment) { 
         	comment = new Comment()
+			comment.username=getPrincipal().username
         }
  
         comment.properties = payload

@@ -126,9 +126,8 @@ class LoginController {
 	 * The Ajax success redirect url.
 	 */
 	def ajaxSuccess = {
-		def user=Person.findByUsername(springSecurityService.authentication.name)
 		response.addCookie(new Cookie("JSESSIONID",session.getId()))
-		render([success: true, guid: user.id, username: springSecurityService.authentication.name,  authenticated:true] as JSON)
+		render([success: true, guid: springSecurityService.authentication.name, username: springSecurityService.authentication.name,  authenticated:true] as JSON)
 	}
 
 	/**
@@ -143,8 +142,7 @@ class LoginController {
 	 */
 	def userInfo = {
 		if (isLoggedIn()) {
-			def user = getAuthenticatedUser()
-			render([success: true, guid: user.id, username: user.username, authenticated:true] as JSON)
+			render([success: true, guid: springSecurityService.authentication.name, username: springSecurityService.authentication.name, authenticated:true] as JSON)
 		} else {
 			render([error: "Not authenticated"] as JSON)
 		}

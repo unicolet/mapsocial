@@ -16,6 +16,7 @@ class SocialController {
     def social2map = {t ->
         [guid: t.id,
          tags: t.tags,
+		 username: t.username,
          starred: t.starred]
     }
     
@@ -23,6 +24,7 @@ class SocialController {
         [guid: t.id,
          text: t.text,
          social: t.social,
+		 username: t.username,
          dateCreated: getDateAsISO8601String(t.dateCreated),
          lastUpdated: getDateAsISO8601String(t.lastUpdated) ]
     }
@@ -32,7 +34,7 @@ class SocialController {
     }
     
     def list = {
-        def socials = Social.list()
+        def socials = Social.findAllByUsername(getPrincipal().username)
  
         render(contentType: "text/json") {
             content {
@@ -46,7 +48,7 @@ class SocialController {
     def show = {
     	println "Requested social "+params.id
         if (params.id) {
-            def social = Social.get(params.id as String)
+            def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
  
             if (social) {
                 render(contentType: "text/json") {
@@ -63,7 +65,7 @@ class SocialController {
     }
  
     def delete = {
-        def social = Social.get(params.id.toString())
+        def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
  
         if (social) {
             social.delete()
@@ -78,11 +80,12 @@ class SocialController {
         def payload = JSON.parse(request.reader.text)
         def social = null
         if(params.id) {
-        	social = Social.get(params.id.toString())
+        	social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
         }
         if (!social) { 
         	social = new Social()
         	social.id = params.id
+			social.username=getPrincipal().username
         }
  
         social.properties = payload
@@ -109,16 +112,13 @@ class SocialController {
     	if (comments) {
     		render(contentType: "text/json") {
 				content {
-					//array {
-						comments.each { comment(comment2map(it)) }
-					//}
+					comments.each { comment(comment2map(it)) }
 				}
 			}
     	} else {
     		render(contentType: "text/json") {
 				content {}
 			}
-    		//render text: "No comments found.", status: 404
     	}
     }
 }
