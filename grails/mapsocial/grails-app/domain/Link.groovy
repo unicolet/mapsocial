@@ -16,4 +16,8 @@ class Link {
     public String toString() {
     	return "[ Link { id:${id},enabled:${enabled},layer:${layer},layerGroup:${layerGroup},url:${url}}]"
     }
+	
+	static mapping = {
+		cache true
+	}
 }

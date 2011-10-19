@@ -8,5 +8,8 @@ class Comment {
 
     static constraints = {
     }
-    
+	
+	static mapping = {
+		cache true
+	}
 }

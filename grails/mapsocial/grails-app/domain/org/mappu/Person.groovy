@@ -18,6 +18,7 @@ class Person {
 
 	static mapping = {
 		password column: '`password`'
+		cache true
 	}
 
 	Set<Authority> getAuthorities() {

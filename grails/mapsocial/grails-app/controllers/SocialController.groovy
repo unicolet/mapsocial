@@ -48,7 +48,7 @@ class SocialController {
     def show = {
     	println "Requested social "+params.id
         if (params.id) {
-            def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
+            def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username, [cache:true])
  
             if (social) {
                 render(contentType: "text/json") {
@@ -108,7 +108,7 @@ class SocialController {
     
     def comments = {
     	println "Retrieving comments for: ${params.id}"
-    	def comments = Comment.findAll("from Comment as c where c.social=? order by c.dateCreated asc",[params.id])
+    	def comments = Comment.findAll("from Comment as c where c.social=? order by c.dateCreated asc",[params.id],[cache:true])
     	if (comments) {
     		render(contentType: "text/json") {
 				content {

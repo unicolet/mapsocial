@@ -16,8 +16,7 @@ class LayerQueryController {
     }
     
     def list = {
-        def queries = LayerQuery.list()
-    	println "Listing layer queries: "+queries
+        def queries = LayerQuery.list([cache:true])
  
         render(contentType: "text/json") {
             content {

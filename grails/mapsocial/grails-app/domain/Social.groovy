@@ -10,5 +10,6 @@ class Social {
     
     static mapping = {
     	id generator:"assigned",column:"id"
+		cache true
     }
 }

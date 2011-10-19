@@ -41,9 +41,9 @@ class LinkController {
         			if(params.layer) eq("layer",params.layer)
         			if(params.layerGroup) eq("layerGroup",params.layerGroup)
         		} // end of or
+				cache true
         	}
         }
-        println links
  
         render(contentType: "text/json") {
             content {
@@ -53,7 +53,6 @@ class LinkController {
     }
  
     def show = {
-    	println "Requested link "+params.id
         if (params.id) {
             def link = Link.get(params.id as Long)
  
