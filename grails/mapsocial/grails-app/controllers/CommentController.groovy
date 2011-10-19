@@ -15,7 +15,7 @@ class CommentController {
   	}
  
     def social2map = {t ->
-        [guid: t.id,
+        [guid: t.socialId,
          tags: t.tags,
          username: t.username,
          starred: t.starred]

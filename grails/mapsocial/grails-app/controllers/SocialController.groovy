@@ -14,7 +14,7 @@ class SocialController {
   	}
  
     def social2map = {t ->
-        [guid: t.id,
+        [guid: t.socialId,
          tags: t.tags,
 		 username: t.username,
          starred: t.starred]
@@ -48,7 +48,7 @@ class SocialController {
     def show = {
     	println "Requested social "+params.id
         if (params.id) {
-            def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username, [cache:true])
+            def social = Social.findBySocialIdAndUsername(params.id as String, getPrincipal().username, [cache:true])
  
             if (social) {
                 render(contentType: "text/json") {
@@ -65,7 +65,7 @@ class SocialController {
     }
  
     def delete = {
-        def social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
+        def social = Social.findBySocialIdAndUsername(params.id as String, getPrincipal().username)
  
         if (social) {
             social.delete()
@@ -80,16 +80,17 @@ class SocialController {
         def payload = JSON.parse(request.reader.text)
         def social = null
         if(params.id) {
-        	social = Social.findByIdAndUsername(params.id as String, getPrincipal().username)
+        	social = Social.findBySocialIdAndUsername(params.id as String, getPrincipal().username)
         }
         if (!social) { 
         	social = new Social()
-        	social.id = params.id
+        	social.socialId = params.id
 			social.username=getPrincipal().username
         }
  
-        social.properties = payload
-        println "Saving Social id="+social.id+" starred="+social.starred
+        social.tags = payload.tags
+        social.starred = payload.starred
+        println "Saving Social id="+social.socialId+" starred="+social.starred
         if (social.save()) {
             render(contentType: "text/json") {
 				content(social2map(social))
