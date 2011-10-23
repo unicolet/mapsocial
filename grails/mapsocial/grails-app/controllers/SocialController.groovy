@@ -2,9 +2,11 @@ import grails.converters.JSON
 import java.util.Date
 import java.text.SimpleDateFormat
 import grails.plugins.springsecurity.Secured
+import groovy.sql.Sql
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class SocialController {
+	def dataSource
 	
 	def getDateAsISO8601String(date) {
 		SimpleDateFormat ISO8601FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
@@ -21,6 +23,13 @@ class SocialController {
 		 x:t.x,
 		 y:t.y]
     }
+	
+	def tag2map = {t ->
+		[guid: t.tag,
+		 tag: t.tag,
+		 occurrences: t.occurrences,
+		 visible: false]
+	}
     
     def comment2map = {t ->
         [guid: t.id,
@@ -128,4 +137,19 @@ class SocialController {
 			}
     	}
     }
+	
+	/**
+	 * Return tags summary by reading the tags table.
+	 * Tags tables are kept in-sync by a stored procedure.
+	 */
+	def tagSummary = {
+		def sql=Sql.newInstance(dataSource)
+		render(contentType: "text/json") {
+			content {
+				sql.eachRow( 'select * from tags order by occurrences desc' ) {
+					tag ( tag2map(it) )
+				}
+			}
+		}
+	}
 }
