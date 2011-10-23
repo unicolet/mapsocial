@@ -2,6 +2,7 @@
 import com.vividsolutions.jts.geom.*
 import com.vividsolutions.jts.io.*
 import com.vividsolutions.jts.operation.overlay.snap.*
+import grails.converters.JSON
 
 import grails.plugins.springsecurity.Secured
 
@@ -15,28 +16,40 @@ class JtsController {
 		
 		def text = request.reader.text
 		
-		println "Operation: "+params.operation
-		//println "Body: "+text
-		
-		def geometries = text.split("\\*")
-		Geometry A = selfSnap(wktRdr.read(geometries[0]))
-		Geometry B = null
-		Geometry C = null
-		if (geometries.length==2)
-			B = selfSnap(wktRdr.read(geometries[1]))
-		
-		if ("intersection".equalsIgnoreCase(params.operation))
-			C = A.intersection(B);
-		else if ("union".equalsIgnoreCase(params.operation))
-			C = A.union(B);
-		else if ("buffer".equalsIgnoreCase(params.operation))
-			C = A.buffer(20);
-		else {
-			render text: "${params.operation} not supported.", status: 404
+		if(params.operation) {			
+			def geometries = text.split("\\*")
+			Geometry A = selfSnap(wktRdr.read(geometries[0]))
+			Geometry B = null
+			Geometry C = null
+			if (geometries.length==2)
+				B = selfSnap(wktRdr.read(geometries[1]))
+			
+			if ("area".equalsIgnoreCase(params.operation))
+				C = A;
+			else if ("intersection".equalsIgnoreCase(params.operation))
+				C = A.intersection(B);
+			else if ("union".equalsIgnoreCase(params.operation))
+				C = A.union(B);
+			else if ("buffer".equalsIgnoreCase(params.operation)) {
+				// defaults to 25
+				C = A.buffer(25);
+			} else if (params.operation.startsWith("buffer")) {
+				// parametric buffer
+				def distance=(String)params.operation.substring(6)
+				C = A.buffer(Double.parseDouble(distance));
+			} else {
+				render text: "${params.operation} not supported.", status: 400
+				return false
+			}
+			
+			render(contentType: "text/json") {
+				geom(C.toText())
+				area(C.getArea())
+			}
+		} else {
+			render text: "Please supply an operation to be performed.", status: 400
 			return false
-		}	
-		
-		render C.toText()
+		}
 	}
 
 	def selfSnap(Geometry g)
