@@ -17,7 +17,9 @@ class SocialController {
         [guid: t.socialId,
          tags: t.tags,
 		 username: t.username,
-         starred: t.starred]
+         starred: t.starred,
+		 x:t.x,
+		 y:t.y]
     }
     
     def comment2map = {t ->
@@ -90,6 +92,8 @@ class SocialController {
  
         social.tags = payload.tags
         social.starred = payload.starred
+        social.x = payload.x
+        social.y = payload.y
         println "Saving Social id="+social.socialId+" starred="+social.starred
         if (social.save()) {
             render(contentType: "text/json") {

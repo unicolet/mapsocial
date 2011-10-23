@@ -4,10 +4,10 @@ class Social {
     Boolean starred=false;
     String tags;
 	String username;
+	Double x,y;
 
     static constraints = {
     	tags(nullable:true)
-		socialId(unique:true)
     }
     
     static mapping = {
