@@ -10,6 +10,9 @@ class UrlMappings {
         "/social/tagSummary"(controller: "social") {
             action = [GET: "tagSummary"]
         }
+		"/social/tags"(controller: "social") {
+			action = [GET: "tags"]
+		}
         "/social/$id?"(controller: "social") {
             action = [GET: "show", PUT: "update", DELETE: "delete", POST: "save"]
         }

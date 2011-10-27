@@ -1,3 +1,5 @@
+import sun.awt.windows.ThemeReader;
+
 import grails.converters.JSON
 import java.util.Date
 import java.text.SimpleDateFormat
@@ -29,6 +31,13 @@ class SocialController {
 		 tag: t.tag,
 		 occurrences: t.occurrences,
 		 visible: false]
+	}
+	
+	def socialtag2map = {t->
+		[guid: t.id,
+		tag: t.tag,
+		x: t.x,
+		y:t.y]
 	}
     
     def comment2map = {t ->
@@ -100,7 +109,7 @@ class SocialController {
         }
  
         social.tags = payload.tags
-        social.starred = payload.starred
+        social.starred = ( payload.starred ? true : false )
 		if(payload.x && payload.y) {
 	        social.x = payload.x
 	        social.y = payload.y
@@ -148,6 +157,24 @@ class SocialController {
 			content {
 				sql.eachRow( 'select * from tags order by occurrences desc' ) {
 					tag ( tag2map(it) )
+				}
+			}
+		}
+	}
+	
+	/**
+	 * returns a JSON collection of tags geometries
+	 */
+	def tags = {
+		def theTags=params.tags.split(",")
+		def sql=Sql.newInstance(dataSource)
+		def query='select * from social_tags as st, social as s where st.social_id=s.id and st.tag in ('+( theTags.collect{"?"}.join(',') ) +')'
+		println query
+		println theTags
+		render(contentType: "text/json") {
+			content {
+				sql.eachRow( query, theTags as List ) {
+					tag ( socialtag2map(it) )
 				}
 			}
 		}
