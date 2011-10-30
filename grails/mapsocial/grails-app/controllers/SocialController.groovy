@@ -34,8 +34,7 @@ class SocialController {
 	}
 	
 	def socialtag2map = {t->
-		[guid: t.id,
-		tag: t.tag,
+		[id: t.id,
 		x: t.x,
 		y:t.y]
 	}
@@ -166,11 +165,14 @@ class SocialController {
 	 * returns a JSON collection of tags geometries
 	 */
 	def tags = {
+		//def bbox=params.bbox.split(",")
+		//println params.bbox
+		//println "abs(x0-x1)="+ Math.abs((bbox[0] as Double) - (bbox[2] as Double) )
+		//println "abs(y0-y1)="+ Math.abs((bbox[1] as Double) - (bbox[3] as Double) )
+		
 		def theTags=params.tags.split(",")
 		def sql=Sql.newInstance(dataSource)
-		def query='select * from social_tags as st, social as s where st.social_id=s.id and st.tag in ('+( theTags.collect{"?"}.join(',') ) +')'
-		println query
-		println theTags
+		def query='select distinct id,x,y from social_tags as st, social as s where st.social_id=s.id and st.tag in ('+( theTags.collect{"?"}.join(',') ) +')'
 		render(contentType: "text/json") {
 			content {
 				sql.eachRow( query, theTags as List ) {
