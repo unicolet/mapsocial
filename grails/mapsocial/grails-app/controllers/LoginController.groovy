@@ -141,6 +141,11 @@ class LoginController {
 	 * Return user info
 	 */
 	def userInfo = {
+		// needed by IE mostly
+		response.setHeader("Cache-Control", "no-cache"); // HTTP 1.1
+		response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+		response.setDateHeader("Expires", 0); // Proxies.
+		//
 		if (isLoggedIn()) {
 			render([success: true, guid: springSecurityService.authentication.name, username: springSecurityService.authentication.name, authenticated:true] as JSON)
 		} else {
