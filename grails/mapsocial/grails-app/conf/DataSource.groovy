@@ -30,6 +30,9 @@ environments {
                         dbCreate = "update"
                         url = "jdbc:postgresql:social"
                 }
+				hibernate {
+					show_sql=false
+				}
         }
 }
 
