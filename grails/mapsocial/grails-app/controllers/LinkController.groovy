@@ -1,7 +1,9 @@
 import grails.converters.JSON
+
 import java.util.Date
 import java.text.SimpleDateFormat
 import grails.plugins.springsecurity.Secured
+import org.mappu.Link
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class LinkController {

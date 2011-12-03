@@ -265,3 +265,41 @@ th.desc a {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
+
+/* Mappu custom classe */
+
+.controller {
+	position; relative;
+	float: left;
+	background-color: #FDCC44;
+	width: 20em;
+	height: 20em;
+	margin: 1em;
+	text-align: center;
+	vertical-align: middle;	
+}
+
+.controller p {
+	top: 45%;
+	position: relative;
+}
+
+.logo {
+	position: absolute;
+	bottom: 5px; right: 5px;
+}
+
+.main-dialog {
+	width: 60%;
+	margin-left: auto ;
+  	margin-right: auto ;
+	margin-top: auto ;
+  	margin-bottom: auto ;
+}
+
+.bottomtext {
+	clear: both;
+	position: relative;
+	width: 90%;
+	text-align: center;
+}

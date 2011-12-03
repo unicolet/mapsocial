@@ -1,4 +1,5 @@
 import grails.plugins.springsecurity.Secured
+import org.mappu.LayerQuery
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class LayerQueryController {

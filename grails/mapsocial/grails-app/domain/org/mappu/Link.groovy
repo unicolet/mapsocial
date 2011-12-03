@@ -1,3 +1,4 @@
+package org.mappu
 class Link {
 	String layerGroup
 	String layer
