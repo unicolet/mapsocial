@@ -31,5 +31,11 @@ class UrlMappings {
         "/layerQuery/$id?"(controller: "layerQuery") {
             action = [GET: "show"]
         }
+		"/tips/next"(controller: "tips") {
+			action = [GET: "showNext"]
+		}
+		"/tips/img/$id"(controller: "tips") {
+			action = [GET: "img"]
+		}
     }
 }

@@ -24,6 +24,13 @@
            			<span></span>
            		</p>
            </div>
+           <div class="controller">
+           		<p>
+	           		<g:link controller="usageTip">Gestione Suggerimenti</g:link>
+	           		<br/>
+           			<span></span>
+           		</p>
+           </div>
            <div class="bottomtext">
            	NB: l'accesso a queste funzioni richiede privilegi amministrativi.
            </div>
