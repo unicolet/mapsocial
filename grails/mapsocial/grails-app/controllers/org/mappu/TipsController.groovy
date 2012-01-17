@@ -7,9 +7,9 @@ import grails.plugins.springsecurity.Secured
 class TipsController {
 	def tip2map = {t ->
         [guid: t.id,
-         title: t.title,
-         text: t.text,
-         imgUrl: t.imageData!=null ? "/mapsocial/tips/img/${t.id}" : null ]
+         tipTitle: t.title,
+         tipText: t.text,
+         tipImg: t.imageData!=null ? "/mapsocial/tips/img/${t.id}" : null ]
     }
 
     def index = { redirect(action: "showNext", params: params) }
@@ -25,9 +25,9 @@ class TipsController {
 		}
 		render(contentType: "text/json") {
 			content([guid: 0,
-					title: "Not found",
-					text: "Not found",
-					imgUrl: null])
+					tipTitle: "Not found",
+					tipText: "Not found",
+					tipImg: null])
 		}
 	}
 	
