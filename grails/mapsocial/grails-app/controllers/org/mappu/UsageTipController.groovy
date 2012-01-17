@@ -24,9 +24,14 @@ class UsageTipController {
     def save = {
         def usageTipInstance = new UsageTip(params)
 		def file = request.getFile('imageData')
-		if(file) {
+		if(file && !file.empty) {
 			log.debug("Setting mime-type="+file.getContentType())
 			usageTipInstance.setMimeType(file.getContentType())
+			usageTipInstance.setImageData(file.getBytes())
+		} else {
+                        log.debug("No file uploaded")
+			usageTipInstance.setMimeType(null)
+			usageTipInstance.setImageData(null)
 		}
         if (usageTipInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'usageTip.label', default: 'UsageTip'), usageTipInstance.id])}"
@@ -73,11 +78,16 @@ class UsageTipController {
             }
             usageTipInstance.properties = params
 			def file = request.getFile('imageData')
-			if(file) {
-				log.debug("Setting mime-type="+file.getContentType())
-				usageTipInstance.setMimeType(file.getContentType())
-			}
-	
+                if(file && !file.empty) {
+                        log.debug("Setting mime-type="+file.getContentType())
+                        usageTipInstance.setMimeType(file.getContentType())
+						usageTipInstance.setImageData(file.getBytes())
+                } else {
+                        log.debug("No file uploaded")
+                        usageTipInstance.setMimeType(null)
+                        usageTipInstance.setImageData(null)
+                }
+
             if (!usageTipInstance.hasErrors() && usageTipInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'usageTip.label', default: 'UsageTip'), usageTipInstance.id])}"
                 redirect(action: "show", id: usageTipInstance.id)
