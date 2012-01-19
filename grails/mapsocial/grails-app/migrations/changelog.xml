@@ -172,7 +172,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="mime_type" type="VARCHAR(255)"/>
-            <column name="text" type="VARCHAR(255)">
+            <column name="text" type="VARCHAR(2000)">
                 <constraints nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)">
@@ -310,5 +310,25 @@ create trigger trg_update_tags_social
   on social for each row 
   execute procedure update_tags();
     	</createProcedure> 
+    </changeSet>
+    <changeSet author="unicoletti" id="1326791384723-25">
+       	<sql splitStatements="false" endDelimiter="">
+CREATE OR REPLACE FUNCTION major_version() RETURNS smallint
+AS $BODY$ 
+    SELECT substring(version() from $$(\d+)\.\d+\.\d+$$)::smallint;
+$BODY$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION adjustByteaOutput() RETURNS void
+AS $BODY$
+BEGIN
+    IF major_version() = 9 THEN
+        ALTER DATABASE social SET bytea_output='escape';
+    END IF;
+    RETURN;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+select adjustByteaOutput();
+    	</sql> 
     </changeSet>
 </databaseChangeLog>

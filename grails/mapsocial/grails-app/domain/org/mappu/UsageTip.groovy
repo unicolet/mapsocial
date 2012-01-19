@@ -10,7 +10,7 @@ class UsageTip {
     static constraints = {
 		language(size:2..2)
 		title()
-		text(widget:'textarea')
+		text(widget:'textarea',size:5..2000)
 		mimeType(nullable:true,editable:false)
 		imageData(nullable:true)
     }
