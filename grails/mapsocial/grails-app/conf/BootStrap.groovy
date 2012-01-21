@@ -30,15 +30,14 @@ class BootStrap {
                 } else {
                         println "admin user exists"
                 }
-				def tips=UsageTip.count()
-				if(!tips) {
-					def filePath = "maps_resources/tips.txt"
-					
-					def text = ApplicationHolder.application.parentContext.getResource("classpath:$filePath").inputStream.text
-					text.eachLine {
-						if(!it.startsWith("#")) { // skip comments
-							def f = it.split("\\|")
-							if(f.length>=3) {
+				def filePath = "maps_resources/tips.txt"
+				
+				def text = ApplicationHolder.application.parentContext.getResource("classpath:$filePath").inputStream.text
+				text.eachLine {
+					if(!it.startsWith("#")) { // skip comments
+						def f = it.split("\\|")
+						if(f.length>=3) {
+							if( ! UsageTip.findByTitleAndLanguage(f[1] as String,f[0] as String) ) {
 								def tip=new UsageTip()
 								tip.language=f[0]
 								tip.title=f[1]
@@ -50,12 +49,12 @@ class BootStrap {
 								tip.save(flush:true);
 								println "tip ${f[1]} added"
 							} else {
-								println "not 4 elements (${f.length}): line ${it}"
+								println "tip ${f[1]} already exists"
 							}
+						} else {
+							println "not 4 elements (${f.length}): line ${it}"
 						}
-				   }
-				} else {
-					println "not adding tips, they already exist"
+					}
 				}
 
      }
