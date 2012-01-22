@@ -7,32 +7,39 @@
         <div class="main-dialog">
            <div class="controller">
            		<p>
-           			<g:link controller="linkUI">Gestione Collegamenti</g:link>
+           			<g:link controller="linkUI">
+           			<g:message code="index.links"/>
+           			</g:link>
            			<br/><span></span>
            		</p>
            </div>
            <div class="controller">
            		<p>
-    	       		<g:link controller="layerQueryUI">Gestione Ricerche</g:link>
+    	       		<g:link controller="layerQueryUI">
+    	       		<g:message code="index.searches"/>
+    	       		</g:link>
            			<br/><span></span>
            		</p>
            </div>
            <div class="controller">
            		<p>
-	           		<g:link controller="person">Gestione Utenti</g:link>
+	           		<g:link controller="person">
+	           		<g:message code="index.users"/>
+	           		</g:link>
 	           		<br/>
            			<span></span>
            		</p>
            </div>
            <div class="controller">
            		<p>
-	           		<g:link controller="usageTip">Gestione Suggerimenti</g:link>
+	           		<g:link controller="usageTip">
+	           		<g:message code="index.tips"/></g:link>
 	           		<br/>
            			<span></span>
            		</p>
            </div>
            <div class="bottomtext">
-           	NB: l'accesso a queste funzioni richiede privilegi amministrativi.
+           	<g:message code="index.warn.admin"/>
            </div>
         </div>
     </body>
