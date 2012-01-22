@@ -6,6 +6,7 @@ class UsageTip {
 	String text
 	byte[] imageData
 	String mimeType
+	boolean enabled=true
 
     static constraints = {
 		language(size:2..2)

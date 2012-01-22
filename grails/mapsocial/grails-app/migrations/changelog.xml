@@ -331,4 +331,12 @@ $BODY$ LANGUAGE plpgsql;
 select adjustByteaOutput();
     	</sql> 
     </changeSet>
+    <changeSet author="unicoletti" id="1326791384723-26">
+    	<comment>add enabled column to usage tips</comment>
+    	<addColumn tableName="usage_tip">
+    		<column name="enabled" defaultValueBoolean="true" type="bool">
+    			<constraints nullable="false"/>
+    		</column>
+    	</addColumn>
+    </changeSet>
 </databaseChangeLog>

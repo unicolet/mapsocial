@@ -15,7 +15,7 @@ class TipsController {
     def index = { redirect(action: "showNext", params: params) }
 	
 	def showNext = {
-		def all=UsageTip.findAllByLanguage( params.language?params.language:"en" );
+		def all=UsageTip.findAllByLanguageAndEnabled( params.language?params.language:"en", true );
 		if(all.size()!=0) {
 			def tip = all[ Math.floor(Math.random()*all.size()) as Integer ]
 			render(contentType: "text/json") {

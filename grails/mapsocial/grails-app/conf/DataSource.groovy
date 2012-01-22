@@ -15,19 +15,19 @@ hibernate {
 environments {
         development {
                 dataSource {
-                        dbCreate = "update" // one of 'create', 'create-drop','update'
+                        dbCreate = "" // one of 'create', 'create-drop','update'
                         url = "jdbc:postgresql:social"
                 }
         }
         test {
                 dataSource {
-                        dbCreate = "update"
+                        dbCreate = ""
                         url = "jdbc:postgresql://192.168.10.252/mapserver"
                 }
         }
         production {
                 dataSource {
-                        dbCreate = "update"
+                        dbCreate = ""
                         url = "jdbc:postgresql:social"
                 }
 				hibernate {

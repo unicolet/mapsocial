@@ -35,6 +35,15 @@
                             <td valign="top" class="value">${fieldValue(bean: usageTipInstance, field: "language")}</td>
                             
                         </tr>
+                        
+                        <tr class="prop">
+                              <td valign="top" class="name">
+                                  <label for="title"><g:message code="usageTip.enabled.label" default="Enabled" /></label>
+                              </td>
+                              <td valign="top" class="value ${hasErrors(bean: usageTipInstance, field: 'enabled', 'errors')}">
+                                  <g:checkBox name="enabled" value="${usageTipInstance?.enabled}" disabled="true"/>
+                              </td>
+                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="usageTip.title.label" default="Title" /></td>

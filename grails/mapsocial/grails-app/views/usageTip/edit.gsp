@@ -33,10 +33,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="language"><g:message code="usageTip.language.label" default="Language" /></label> (it,en,es,...)
+                                  <label for="language"><g:message code="usageTip.language.label" default="Language" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: usageTipInstance, field: 'language', 'errors')}">
                                     <g:textField name="language" maxlength="2" value="${usageTipInstance?.language}" />
+                                </td>
+                            </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="title"><g:message code="usageTip.enabled.label" default="Enabled" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: usageTipInstance, field: 'enabled', 'errors')}">
+                                    <g:checkBox name="enabled" value="${usageTipInstance?.enabled}" />
                                 </td>
                             </tr>
                         
