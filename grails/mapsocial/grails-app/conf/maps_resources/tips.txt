@@ -1,0 +1,6 @@
+#this is a comment ;-)  This file is | separated, first column is language, second title, thid text, last is a image name
+it|Riordinare i livelli|In Mappu e' possibile riordinare i livelli trascinandoli con il mouse nell'ordine voluto all'interno dell'elenco.|
+it|Eseguire ricerche|Cliccando sul pulsante evidenziato a fianco e' possibile eseguire ricerche sui dati cartografici|ricerca.png
+it|Personalizzare|Mappu e' completamente personalizzabile, tanto che e' anche possibile creare suggerimenti personalizzati da mostrare (come questo che state leggendo) ai vostri utenti. Questa funzione e' riservata agli amministratori.|admin.png
+it|Ricerca sulla mappa|Cliccando su un oggetto visibile sulla mappa e' possibile visualizzare nel riquadro di sinistra tutte le informazioni relative a quell'oggetto memorizzate nel sistema.|
+it|Funzioni extra sugli oggetti|Dopo aver selezionato un oggetto cliccando sulla mappa, eseguendo doppio click sul nome dell'oggetto nell'elenco in alto a destra apparira' un menu contestuale che permette di visualizzare tutte le banche dati collegate a quell'oggetto, aggiungere dei commenti e delle etichette a quello'oggetto.|extra.png
