@@ -62,6 +62,84 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
+environments {
+	
+	production {
+		def catalinaBase = System.properties.getProperty('catalina.base')
+		if (!catalinaBase) catalinaBase = '.'   // just in case
+		def logDirectory = "${catalinaBase}/logs"
+
+		log4j = {
+			appenders {
+				// set up a log file in the standard tomcat area; be sure to use .toString() with ${}
+				rollingFile name:'tomcatLog', file:"${logDirectory}/${appName}.log".toString(), maxFileSize:'100KB'
+				'null' name:'stacktrace'
+			}
+
+			root {
+				// change the root logger to my tomcatLog file
+				error 'tomcatLog'
+				additivity = true
+			}
+
+			// example for sending stacktraces to my tomcatLog file
+			error tomcatLog:'StackTrace'
+
+			// set level for my messages; this uses the root logger (and thus the tomcatLog file)
+			info 'grails.app'
+		}
+	}
+	test {
+		def catalinaBase = System.properties.getProperty('catalina.base')
+		if (!catalinaBase) catalinaBase = '.'   // just in case
+		def logDirectory = "${catalinaBase}/logs"
+
+		log4j = {
+			appenders {
+				// set up a log file in the standard tomcat area; be sure to use .toString() with ${}
+				rollingFile name:'tomcatLog', file:"${logDirectory}/${appName}.log".toString(), maxFileSize:'100KB'
+				'null' name: 'stacktrace'
+			}
+
+			root {
+				// change the root logger to my tomcatLog file
+				error 'tomcatLog'
+				additivity = true
+			}
+
+			// example for sending stacktraces to my tomcatLog file
+			error tomcatLog:'StackTrace'
+
+			// set level for my messages; this uses the root logger (and thus the tomcatLog file)
+			debug 'grails.app'
+		}
+	}
+	development {
+		def catalinaBase = System.properties.getProperty('catalina.base')
+		if (!catalinaBase) catalinaBase = '.'   // just in case
+		def logDirectory = "${catalinaBase}/logs"
+
+		log4j = {
+			appenders {
+				// set up a log file in the standard tomcat area; be sure to use .toString() with ${}
+				rollingFile name:'tomcatLog', file:"${logDirectory}/${appName}.log".toString(), maxFileSize:'100KB'
+				'null' name: 'stacktrace'
+			}
+
+			root {
+				// change the root logger to my tomcatLog file
+				error 'tomcatLog'
+				additivity = true
+			}
+
+			// example for sending stacktraces to my tomcatLog file
+			error tomcatLog:'StackTrace'
+
+			// set level for my messages; this uses the root logger (and thus the tomcatLog file)
+			debug 'grails.app'
+		}
+	}
+}
 
      
 // Added by the Spring Security Core plugin:
