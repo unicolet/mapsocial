@@ -1,7 +1,7 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
+//grails.config.locations = [ "classpath:ds-config.properties",
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
 //                             "file:${userHome}/.grails/${appName}-config.groovy"]
@@ -70,4 +70,3 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.mappu.Per
 grails.plugins.springsecurity.authority.className = 'org.mappu.Authority'
 //grails.plugins.springsecurity.dao.reflectionSaltSourceProperty = 'username'
 //grails.plugins.springsecurity.password.algorithm='SHA-512'
-
