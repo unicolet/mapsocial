@@ -263,7 +263,7 @@ DROP FUNCTION make_plpgsql();
     </changeSet>
     <changeSet author="unicoletti (generated)" id="1326791384723-23">
     	<createProcedure>
-create or replace function update_tags() 
+create or replace function update_tags()
 returns trigger as '
 declare 
   w_tagcursor refcursor;
@@ -282,31 +282,40 @@ begin
 
         SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
         IF w_tag_exists = 1 THEN
-            UPDATE tags set occurrences=occurrences-1 WHERE tag = w_tag;
+            UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
         ELSE
             insert into tags (tag, occurrences) values (w_tag, 1);
         END IF;
     END LOOP;
+    CLOSE w_tagcursor;
   end if;
 
   if TG_OP=''UPDATE'' THEN
-    IF new.tags &lt;&gt; old.tags THEN
-		DELETE FROM social_tags WHERE SOCIAL_ID=NEW.id;
-		OPEN w_tagcursor FOR SELECT trim(tag) as tag FROM regexp_split_to_table(new.tags, E'','') AS tag;
-		LOOP
-		    FETCH w_tagcursor into w_tag;
-		    EXIT WHEN NOT FOUND;
+    IF new.tags <> old.tags THEN
+                DELETE FROM social_tags WHERE SOCIAL_ID=NEW.id;
+                OPEN w_tagcursor FOR SELECT trim(tag) as tag FROM regexp_split_to_table(old.tags, E'','') AS tag;
+                LOOP
+                    FETCH w_tagcursor into w_tag;
+                    EXIT WHEN NOT FOUND;
 
-		    INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
+                    UPDATE tags set occurrences=occurrences-1 WHERE tag = w_tag;
+                END LOOP;
+                OPEN w_tagcursor FOR SELECT trim(tag) as tag FROM regexp_split_to_table(new.tags, E'','') AS tag;
+                LOOP
+                    FETCH w_tagcursor into w_tag;
+                    EXIT WHEN NOT FOUND;
 
-		    SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
-		    IF w_tag_exists = 1 THEN
-		        UPDATE tags set occurrences=occurrences-1 WHERE tag = w_tag;
-		    ELSE
-		        insert into tags (tag, occurrences) values (w_tag, 1);
-		    END IF;
-		END LOOP;
-	END IF;
+                    INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
+
+                    SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
+                    IF w_tag_exists = 1 THEN
+                        UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
+                    ELSE
+                        insert into tags (tag, occurrences) values (w_tag, 1);
+                    END IF;
+                END LOOP;
+                CLOSE w_tagcursor;
+        END IF;
   end if;
 
   if TG_OP=''DELETE'' then
@@ -323,7 +332,7 @@ end;
     <changeSet author="unicoletti (generated)" id="1326791384723-24">
        	<createProcedure>
 create trigger trg_update_tags_social 
-  before insert or update or delete
+  after insert or update or delete
   on social for each row 
   execute procedure update_tags();
     	</createProcedure> 
