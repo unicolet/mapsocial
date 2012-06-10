@@ -291,7 +291,7 @@ begin
   end if;
 
   if TG_OP=''UPDATE'' THEN
-    IF new.tags <> old.tags THEN
+    IF new.tags &lt;&gt; old.tags THEN
                 DELETE FROM social_tags WHERE SOCIAL_ID=NEW.id;
                 OPEN w_tagcursor FOR SELECT trim(tag) as tag FROM regexp_split_to_table(old.tags, E'','') AS tag;
                 LOOP
@@ -300,6 +300,7 @@ begin
 
                     UPDATE tags set occurrences=occurrences-1 WHERE tag = w_tag;
                 END LOOP;
+                CLOSE w_tagcursor;
                 OPEN w_tagcursor FOR SELECT trim(tag) as tag FROM regexp_split_to_table(new.tags, E'','') AS tag;
                 LOOP
                     FETCH w_tagcursor into w_tag;
