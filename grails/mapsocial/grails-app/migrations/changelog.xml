@@ -278,13 +278,14 @@ begin
         FETCH w_tagcursor into w_tag;
         EXIT WHEN NOT FOUND;
 
-        INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
-
-        SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
-        IF w_tag_exists = 1 THEN
-            UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
-        ELSE
-            insert into tags (tag, occurrences) values (w_tag, 1);
+        IF w_tag <> '''' THEN
+            INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
+            SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
+            IF w_tag_exists = 1 THEN
+                UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
+            ELSE
+                insert into tags (tag, occurrences) values (w_tag, 1);
+            END IF;
         END IF;
     END LOOP;
     CLOSE w_tagcursor;
@@ -306,13 +307,14 @@ begin
                     FETCH w_tagcursor into w_tag;
                     EXIT WHEN NOT FOUND;
 
-                    INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
-
-                    SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
-                    IF w_tag_exists = 1 THEN
-                        UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
-                    ELSE
-                        insert into tags (tag, occurrences) values (w_tag, 1);
+                    IF w_tag <> '''' THEN
+                        INSERT INTO social_tags(social_id, tag) VALUES (NEW.id, w_tag);
+                        SELECT 1 into w_tag_exists FROM TAGS where tag=w_tag;
+                        IF w_tag_exists = 1 THEN
+                            UPDATE tags set occurrences=occurrences+1 WHERE tag = w_tag;
+                        ELSE
+                            insert into tags (tag, occurrences) values (w_tag, 1);
+                        END IF;
                     END IF;
                 END LOOP;
                 CLOSE w_tagcursor;
