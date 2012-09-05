@@ -1,7 +1,11 @@
 Mapsocial is the name of the Grails backend for Mappu
 =====================================================
 
-Whats is Mappu? [Mappu is all this.](http://unicolet.github.com/mappu/ "Mappu").
+Whats is Mappu? [Mappu is all this](http://unicolet.github.com/mappu/ "Mappu")
+
+Mapsocial is the component that provides an (almost) RESTful interface to Mappu
+so that it can do all the awesome stuff it does and a minimal
+configuration UI. Nothing flashy here, sorry.
 
 The gory details
 ----------------
