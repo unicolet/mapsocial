@@ -12,4 +12,13 @@ class Comment {
 	static mapping = {
 		cache true
 	}
+	
+	def this2map = {
+	    return [guid: this.id,
+             text: this.text,
+             social: this.social,
+             username: this.username,
+             dateCreated: Utils.getDateAsISO8601String(this.dateCreated),
+             lastUpdated: Utils.getDateAsISO8601String(this.lastUpdated) ]
+    }
 }

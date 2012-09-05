@@ -22,7 +22,7 @@ environments {
         test {
                 dataSource {
                         dbCreate = ""
-                        url = "jdbc:postgresql://10.1.23.187/social"
+                        url = "jdbc:postgresql:social"
                 }
         }
         production {

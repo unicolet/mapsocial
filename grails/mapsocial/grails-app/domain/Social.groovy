@@ -14,4 +14,13 @@ class Social {
 		cache true
 		version false
     }
+    
+    def this2map = {
+        return [guid: this.socialId,
+         tags: this.tags,
+		 username: this.username,
+         starred: this.starred,
+		 x:this.x,
+		 y:this.y]
+    }
 }

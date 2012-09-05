@@ -19,4 +19,11 @@ class UsageTip {
 	static mapping = {
 		cache true
 	}
+	
+	def this2map = {
+        return [guid: this.id,
+         tipTitle: this.title,
+         tipText: this.text,
+         tipImg: this.imageData!=null ? "/mapsocial/tips/img/${t.id}" : null ]
+    }
 }

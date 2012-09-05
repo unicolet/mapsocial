@@ -21,4 +21,15 @@ class Link {
 	static mapping = {
 		cache true
 	}
+	
+	def this2map = {
+        return [guid: this.id,
+         layerGroup: this.layerGroup,
+         layer: this.layer,
+         featureId: this.featureId,
+         enabled: this.enabled,
+         url: this.url,
+         description: this.description,
+         title: this.title]
+    }
 }
