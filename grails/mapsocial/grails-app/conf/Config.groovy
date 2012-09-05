@@ -148,3 +148,20 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.mappu.Per
 grails.plugins.springsecurity.authority.className = 'org.mappu.Authority'
 //grails.plugins.springsecurity.dao.reflectionSaltSourceProperty = 'username'
 //grails.plugins.springsecurity.password.algorithm='SHA-512'
+
+if (appName) {
+	def ENV_NAME = "GRAILS_CONFIG"   
+	if(!grails.config.locations || !(grails.config.locations instanceof List)) {
+		grails.config.locations = []
+	}
+	if(System.getenv(ENV_NAME)) {
+		println "Including configuration file specified in environment: " + System.getenv(ENV_NAME) + "/${appName}-config.properties";
+		grails.config.locations << "file:" + System.getenv(ENV_NAME) + "/${appName}-config.properties"
+	} else if(System.getProperty(ENV_NAME)) {
+            println "Including configuration file specified on command line: " + System.getProperty(ENV_NAME)+ "/${appName}-config.properties";
+            grails.config.locations << "file:" + System.getProperty(ENV_NAME)+ "/${appName}-config.properties"
+    } 
+    else {
+        println "No external configuration file defined."
+    }
+}
