@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletResponse
 import grails.converters.*
 
 /**
- *   Unit tests for SocialController
+ *   Unit tests for CommentController
  */
-class SocialControllerTests extends grails.test.ControllerUnitTestCase {
+class CommentControllerTests extends grails.test.ControllerUnitTestCase {
     
     protected void setUp() {
         super.setUp();
@@ -51,28 +51,11 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
         controller.metaClass.getPrincipal = null;
     }
 
-    void testShowNonExistentSocial() {
-        def tgtId=-1
-        controller.params.id=tgtId
-        controller.show()
-        assertEquals "${tgtId} not found.", controller.response.contentAsString
-    }
-    
-    void testShowAsList() {
-        // w/o params show invokes list
-        controller.show()
-
-        assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
-        assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
-        assertTrue "contentType", controller.response.contentType.contains("json")
-    }
-
     void testList() {
-        // w/o params show invokes list
+        
         controller.list()
 
-        assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
-        assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
+        assertTrue "items not found", JSON.parse(controller.response.contentAsString)?.content.size() > 0
         assertTrue "contentType", controller.response.contentType.contains("json")
     }
 }

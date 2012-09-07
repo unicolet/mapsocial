@@ -54,12 +54,10 @@ class SocialController {
     
     def list = {
         def socials = Social.findAllByUsername(getPrincipal().username)
- 
+
         render(contentType: "text/json") {
-            content {
-            	array {
-            		socials.each {social(social2map(it))}
-            	}
+            content = array {
+                socials.each {social(social2map(it))}
             }
         }
     }

@@ -38,10 +38,8 @@ class CommentController {
         def comments = Comment.list()
  
         render(contentType: "text/json") {
-            content {
-            	array {
-            		comments.each {comment(comment2map(it))}
-            	}
+            content = array {
+                comments.each {comment(comment2map(it))}
             }
         }
     }

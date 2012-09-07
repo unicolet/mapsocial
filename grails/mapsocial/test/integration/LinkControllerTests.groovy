@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletResponse
 import grails.converters.*
 
 /**
- *   Unit tests for SocialController
+ *   Unit tests for LinkController
  */
-class SocialControllerTests extends grails.test.ControllerUnitTestCase {
+class LinkControllerTests extends grails.test.ControllerUnitTestCase {
     
     protected void setUp() {
         super.setUp();
@@ -50,24 +50,13 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
         super.tearDown();
         controller.metaClass.getPrincipal = null;
     }
-
-    void testShowNonExistentSocial() {
-        def tgtId=-1
-        controller.params.id=tgtId
-        controller.show()
-        assertEquals "${tgtId} not found.", controller.response.contentAsString
-    }
     
+    /**
+     * This controller uses only the list method as all links are fetched at startup.
+     * SC local queries are used from then on.
+     *
+     */
     void testShowAsList() {
-        // w/o params show invokes list
-        controller.show()
-
-        assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
-        assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
-        assertTrue "contentType", controller.response.contentType.contains("json")
-    }
-
-    void testList() {
         // w/o params show invokes list
         controller.list()
 

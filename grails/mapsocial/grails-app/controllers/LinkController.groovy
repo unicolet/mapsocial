@@ -48,7 +48,7 @@ class LinkController {
         }
  
         render(contentType: "text/json") {
-            content {
+            content = array {
 				links.each {lnk(link2map(it))}
             }
         }
