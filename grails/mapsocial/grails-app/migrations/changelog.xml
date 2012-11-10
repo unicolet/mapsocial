@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"
+    logicalFilePath="mappu_changelog">
     <changeSet author="unicoletti (generated)" id="1326791384723-1">
         <createTable schemaName="public" tableName="authority">
             <column name="id" type="int8">
@@ -349,9 +351,10 @@ $BODY$ LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION adjustByteaOutput() RETURNS void
 AS $BODY$
+DECLARE
 BEGIN
     IF major_version() = 9 THEN
-        ALTER DATABASE social SET bytea_output='escape';
+        execute( 'ALTER DATABASE '||current_database()||' SET bytea_output=''escape''');
     END IF;
     RETURN;
 END;

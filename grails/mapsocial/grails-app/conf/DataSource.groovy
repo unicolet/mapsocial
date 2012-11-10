@@ -22,7 +22,8 @@ environments {
         test {
                 dataSource {
                         dbCreate = ""
-                        url = "jdbc:postgresql:social"
+                        username = "social_test"
+                        url = "jdbc:postgresql:social_test"
                 }
         }
         production {
