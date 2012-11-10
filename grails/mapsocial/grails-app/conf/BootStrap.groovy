@@ -1,8 +1,9 @@
 import org.mappu.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import liquibase.*;
-import liquibase.util.NetUtil;
+import liquibase.*
+import liquibase.util.NetUtil
 import liquibase.database.DatabaseFactory;
+import grails.util.Environment
 
 class BootStrap {
     
@@ -15,7 +16,7 @@ class BootStrap {
          * Update database schema.
          *
          ****************************************/
-        println "Liquibase: checking schema update"
+        println "Liquibase: checking schema update, context="+Environment.current.toString()
         FileOpener clFO = new ClassLoaderFileOpener();
         FileOpener fsFO = new FileSystemFileOpener();
 
@@ -31,7 +32,7 @@ class BootStrap {
             DatabaseFactory.getInstance().findCorrectDatabaseImplementation(dataSource.getConnection())
         );
 
-        liquibase.update("");
+        liquibase.update(Environment.current.toString());
         println "Liquibase: checking schema update completeted"
         
         /****************************************
