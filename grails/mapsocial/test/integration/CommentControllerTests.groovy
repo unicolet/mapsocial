@@ -32,11 +32,11 @@ class CommentControllerTests extends grails.test.ControllerUnitTestCase {
 
             case "text/json":
                 // old builder
-                //def builder = new grails.util.JSonBuilder(delegate.response)
-                //builder.json(c)
+                def builder = new grails.util.JSonBuilder(delegate.response)
+                builder.json(c)
                 
                 // new builder
-                new JSONBuilder().build(c).render(delegate.response)
+                //new JSONBuilder().build(c).render(delegate.response)
                 
                 break
             default:
@@ -55,8 +55,14 @@ class CommentControllerTests extends grails.test.ControllerUnitTestCase {
         
         controller.list()
 
-        assertTrue "items not found", JSON.parse(controller.response.contentAsString)?.content.size() > 0
+        assertEquals "{\"content\":[{\"guid\":1,\"text\":\"this is the comment text\",\"social\":\"topp:states:1\",\"username\":\"demo\",\"dateCreated\":\"2012-11-11T01:02:30+01:00\",\"lastUpdated\":\"2012-11-11T01:02:30+01:00\"}]}", controller.response.contentAsString
+        def response = JSON.parse(controller.response.contentAsString)
+        assertTrue "items not found", response?.content.size() > 0
         assertTrue "contentType", controller.response.contentType.contains("json")
+        assertEquals "comment_text", "this is the comment text", response.content[0]['text']
+        assertEquals "username", "demo", response.content[0]['username']
+        assertEquals "created", "2012-11-11T01:02:30+01:00", response.content[0]['dateCreated']
+        assertEquals "social", "topp:states:1", response.content[0]['social']
     }
 }
 

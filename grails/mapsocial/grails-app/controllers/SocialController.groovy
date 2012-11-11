@@ -56,8 +56,8 @@ class SocialController {
         def socials = Social.findAllByUsername(getPrincipal().username)
 
         render(contentType: "text/json") {
-            content = array {
-                socials.each {social(social2map(it))}
+            content {
+                socials.each { social(comment2map(it)) }
             }
         }
     }

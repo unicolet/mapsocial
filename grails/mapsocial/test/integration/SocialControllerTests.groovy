@@ -32,11 +32,11 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
 
             case "text/json":
                 // old builder
-                //def builder = new grails.util.JSonBuilder(delegate.response)
-                //builder.json(c)
+                def builder = new grails.util.JSonBuilder(delegate.response)
+                builder.json(c)
                 
                 // new builder
-                new JSONBuilder().build(c).render(delegate.response)
+                //new JSONBuilder().build(c).render(delegate.response)
                 
                 break
             default:
@@ -73,6 +73,30 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
 
         assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
         assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
+        assertTrue "contentType", controller.response.contentType.contains("json")
+    }
+    
+    void testListFeatureComments() {
+        controller.params.id="topp:states:1"
+        controller.comments()
+        
+        println controller.response.contentAsString
+        def response = JSON.parse(controller.response.contentAsString)
+        assertTrue "contentType", controller.response.contentType.contains("json")
+        assertTrue "items not found", response?.content.size() > 0
+        assertEquals "comment_text", "this is the comment text", response.content[0]['text']
+        assertEquals "username", "demo", response.content[0]['username']
+        assertEquals "created", "2012-11-11T01:02:30+01:00", response.content[0]['dateCreated']
+        assertEquals "social", "topp:states:1", response.content[0]['social']
+    }
+
+    void testListFeatureWithoutComments() {
+        controller.params.id="topp:states:0"
+        controller.comments()
+        
+        println controller.response.contentAsString
+        def response = JSON.parse(controller.response.contentAsString)
+        assertTrue "items not found", response?.content.size() == 0
         assertTrue "contentType", controller.response.contentType.contains("json")
     }
 }

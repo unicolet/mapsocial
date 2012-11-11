@@ -16,25 +16,28 @@ class BootStrap {
          * Update database schema.
          *
          ****************************************/
-        println "Liquibase: checking schema update, context="+Environment.current.toString()
-        FileOpener clFO = new ClassLoaderFileOpener();
-        FileOpener fsFO = new FileSystemFileOpener();
-
-        String changelog = ApplicationHolder.application.parentContext.servletContext.getRealPath("/WEB-INF/changelog.xml")
-        def changelogFile = new File(changelog)
-        if( ! changelogFile.exists() ) {
-            changelog="grails-app/migrations/changelog.xml"
+        if (System.env.MAPSOCIAL_NO_AUTO_LIQUIBASE) {
+            println "Liquibase: skipping because variable MAPSOCIAL_NO_AUTO_LIQUIBASE is defined"
+        } else {
+            println "Liquibase: checking schema update, context="+Environment.current.toString()
+            FileOpener clFO = new ClassLoaderFileOpener();
+            FileOpener fsFO = new FileSystemFileOpener();
+    
+            String changelog = ApplicationHolder.application.parentContext.servletContext.getRealPath("/WEB-INF/changelog.xml")
+            def changelogFile = new File(changelog)
+            if( ! changelogFile.exists() ) {
+                changelog="grails-app/migrations/changelog.xml"
+            }
+            
+            Liquibase liquibase = new Liquibase(
+                changelog,
+                new CompositeFileOpener(clFO,fsFO),
+                DatabaseFactory.getInstance().findCorrectDatabaseImplementation(dataSource.getConnection())
+            );
+    
+            liquibase.update(Environment.current.toString());
+            println "Liquibase: checking schema update completeted"
         }
-        
-        Liquibase liquibase = new Liquibase(
-            changelog,
-            new CompositeFileOpener(clFO,fsFO),
-            DatabaseFactory.getInstance().findCorrectDatabaseImplementation(dataSource.getConnection())
-        );
-
-        liquibase.update(Environment.current.toString());
-        println "Liquibase: checking schema update completeted"
-        
         /****************************************
          *
          * Done.

@@ -25,6 +25,9 @@ environments {
                         username = "social_test"
                         url = "jdbc:postgresql:social_test"
                 }
+                hibernate {
+					show_sql=false
+				}
         }
         production {
                 dataSource {
