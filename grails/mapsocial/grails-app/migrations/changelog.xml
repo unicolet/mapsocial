@@ -375,6 +375,9 @@ select adjustByteaOutput();
     	<comment>clean test db and add one comment to pass unit tests</comment>
     	<delete tableName="comment">
     	</delete>
+    	<delete tableName="person">
+		<where>username='demo'</where>
+    	</delete>
     	<insert tableName="comment">
             <column name="id" valueNumeric="1"/>
             <column name="version" valueNumeric="1"/>
@@ -382,6 +385,16 @@ select adjustByteaOutput();
             <column name="last_updated" valueDate="2012-11-11T01:02:30"/>
             <column name="social" value="topp:states:1"/>
             <column name="text" value="this is the comment text"/>
+            <column name="username" value="demo"/>
+        </insert>
+     	<insert tableName="person">
+            <column name="id" valueNumeric="2"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="account_expired" valueBoolean="false"/>
+            <column name="account_locked" valueBoolean="false"/>
+            <column name="password_expired" valueBoolean="false"/>
+            <column name="enabled" valueBoolean="false"/>
+            <column name="password" value="2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea"/>
             <column name="username" value="demo"/>
         </insert>
     	<delete tableName="social">
