@@ -388,6 +388,7 @@ select adjustByteaOutput();
     	</delete>
     </changeSet>
     <changeSet author="unicoletti" id="1326791384723-28" context="TEST" runAlways="true">
+    	<comment>add (disabled) demo user</comment>
     	<delete tableName="person">
 		<where>username='demo'</where>
     	</delete>
@@ -397,9 +398,16 @@ select adjustByteaOutput();
             <column name="account_expired" valueBoolean="false"/>
             <column name="account_locked" valueBoolean="false"/>
             <column name="password_expired" valueBoolean="false"/>
-            <column name="enabled" valueBoolean="true"/>
+            <column name="enabled" valueBoolean="false"/>
             <column name="password" value="2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea"/>
             <column name="username" value="demo"/>
         </insert>
+    </changeSet>
+    <changeSet author="unicoletti" id="1326791384723-29" context="TEST" runAlways="true">
+        <comment>enable demo user</comment>
+    	<update tableName="person">
+            <column name="enabled" valueBoolean="true"/>
+		<where>username='demo'</where>
+    	</update>
     </changeSet>
 </databaseChangeLog>
