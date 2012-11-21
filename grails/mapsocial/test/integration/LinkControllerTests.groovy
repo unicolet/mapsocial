@@ -32,11 +32,11 @@ class LinkControllerTests extends grails.test.ControllerUnitTestCase {
 
             case "text/json":
                 // old builder
-                //def builder = new grails.util.JSonBuilder(delegate.response)
-                //builder.json(c)
+                def builder = new grails.util.JSonBuilder(delegate.response)
+                builder.json(c)
                 
                 // new builder
-                new JSONBuilder().build(c).render(delegate.response)
+                //new JSONBuilder().build(c).render(delegate.response)
                 
                 break
             default:
@@ -56,14 +56,26 @@ class LinkControllerTests extends grails.test.ControllerUnitTestCase {
      * SC local queries are used from then on.
      *
      */
-    void testShowAsList() {
+    void testListWithParams() {
+        controller.params.layer="notpresent"
         // w/o params show invokes list
-        controller.list()
+        controller.show()
 
+        assertTrue "contentType", controller.response.contentType.contains("json")
         assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
         assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
-        assertTrue "contentType", controller.response.contentType.contains("json")
     }
+
+
+    void testList() {
+        // w/o params show invokes list
+        controller.show()
+
+        assertTrue "contentType", controller.response.contentType.contains("json")
+        assertEquals "json", "{\"content\":[{\"guid\":1,\"layerGroup\":\"top\",\"layer\":\"states\",\"featureId\":\"\",\"enabled\":true,\"url\":\"the_url\",\"description\":\"descr\",\"title\":\"title\"}]}", controller.response.contentAsString
+        assertEquals "items found", [["guid":1,"layerGroup":"top","layer":"states","featureId":"","enabled":true,"url":"the_url","description":"descr","title":"title"]], JSON.parse(controller.response.contentAsString)?.content
+    }
+
 }
 
 

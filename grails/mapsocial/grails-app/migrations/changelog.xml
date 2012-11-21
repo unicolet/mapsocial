@@ -410,4 +410,20 @@ select adjustByteaOutput();
 		<where>username='demo'</where>
     	</update>
     </changeSet>
+    <changeSet author="unicoletti" id="1326791384723-30" context="TEST" runAlways="true">
+        <comment>insert link data for tests</comment>
+     	<delete tableName="link">
+    	</delete>
+    	<insert tableName="link">
+            <column name="id" valueNumeric="1"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="feature_id" value=""/>
+            <column name="layer" value="states"/>
+            <column name="layer_group" value="top"/>
+            <column name="url" value="the_url"/>
+            <column name="description" value="descr"/>
+            <column name="title" value="title"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
