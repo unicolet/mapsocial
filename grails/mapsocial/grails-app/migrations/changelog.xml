@@ -397,7 +397,7 @@ select adjustByteaOutput();
             <column name="account_expired" valueBoolean="false"/>
             <column name="account_locked" valueBoolean="false"/>
             <column name="password_expired" valueBoolean="false"/>
-            <column name="enabled" valueBoolean="false"/>
+            <column name="enabled" valueBoolean="true"/>
             <column name="password" value="2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea"/>
             <column name="username" value="demo"/>
         </insert>
