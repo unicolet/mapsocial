@@ -7,24 +7,6 @@ import org.mappu.Link
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class LinkController {
-	
-	def getDateAsISO8601String(date) {
-		SimpleDateFormat ISO8601FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		String result = ISO8601FORMAT.format(date);
-		result = result.substring(0, result.length()-2) + ":" + result.substring(result.length()-2);
-		return result;
-  	}
- 
-    def link2map = {t ->
-        [guid: t.id,
-         layerGroup: t.layerGroup,
-         layer: t.layer,
-         featureId: t.featureId,
-         enabled: t.enabled,
-         url: t.url,
-         description: t.description,
-         title: t.title]
-    }
  
     def index = {
     	list()
@@ -49,7 +31,7 @@ class LinkController {
  
         render(contentType: "text/json") {
             content {
-		links.each {lnk(link2map(it))}
+                links.each { lnk( it.this2map() ) } // apparently Groovy needs the lnk wrapper
             }
         }
     }
@@ -60,7 +42,7 @@ class LinkController {
  
             if (link) {
                 render(contentType: "text/json") {
-                    content(link2map(link))
+                    content( link.this2map() )
                 }
             }
             else {
@@ -97,11 +79,9 @@ class LinkController {
         }
  
         link.properties = payload
-        println "Saving Link with social="+link.social
         if (link.save()) {
-        	println "Saved Link with social="+link.social+" id="+link.id
             render(contentType: "text/json") {
-				content(link2map(link))
+				content( link.this2map() )
 			}
         } else {
         	link.errors.each {

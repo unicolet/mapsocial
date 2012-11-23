@@ -65,6 +65,21 @@ class LinkControllerTests extends grails.test.ControllerUnitTestCase {
         assertEquals "json", "{\"content\":[]}", controller.response.contentAsString
         assertEquals "items found", [], JSON.parse(controller.response.contentAsString)?.content
     }
+    
+    /**
+     * This controller uses only the list method as all links are fetched at startup.
+     * SC local queries are used from then on.
+     *
+     */
+    void testListWithMatchingParams() {
+        controller.params.layer="states"
+        // w/o params show invokes list
+        controller.show()
+
+        assertTrue "contentType", controller.response.contentType.contains("json")
+        assertEquals "json", "{\"content\":[{\"guid\":1,\"layerGroup\":\"top\",\"layer\":\"states\",\"featureId\":\"\",\"enabled\":true,\"url\":\"the_url\",\"description\":\"descr\",\"title\":\"title\"}]}", controller.response.contentAsString
+        assertEquals "items found", [["guid":1,"layerGroup":"top","layer":"states","featureId":"","enabled":true,"url":"the_url","description":"descr","title":"title"]], JSON.parse(controller.response.contentAsString)?.content
+    }
 
 
     void testList() {
@@ -74,6 +89,16 @@ class LinkControllerTests extends grails.test.ControllerUnitTestCase {
         assertTrue "contentType", controller.response.contentType.contains("json")
         assertEquals "json", "{\"content\":[{\"guid\":1,\"layerGroup\":\"top\",\"layer\":\"states\",\"featureId\":\"\",\"enabled\":true,\"url\":\"the_url\",\"description\":\"descr\",\"title\":\"title\"}]}", controller.response.contentAsString
         assertEquals "items found", [["guid":1,"layerGroup":"top","layer":"states","featureId":"","enabled":true,"url":"the_url","description":"descr","title":"title"]], JSON.parse(controller.response.contentAsString)?.content
+    }
+    
+    void testShowLinkById() {
+        controller.params.id=1
+        // w/o params show invokes list
+        controller.show()
+
+        assertTrue "contentType", controller.response.contentType.contains("json")
+        assertEquals "json", "{\"content\":{\"guid\":1,\"layerGroup\":\"top\",\"layer\":\"states\",\"featureId\":\"\",\"enabled\":true,\"url\":\"the_url\",\"description\":\"descr\",\"title\":\"title\"}}", controller.response.contentAsString
+        assertEquals "items found", ["guid":1,"layerGroup":"top","layer":"states","featureId":"","enabled":true,"url":"the_url","description":"descr","title":"title"], JSON.parse(controller.response.contentAsString)?.content
     }
 
 }

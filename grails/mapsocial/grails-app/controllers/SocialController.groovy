@@ -10,22 +10,6 @@ import groovy.sql.Sql
 class SocialController {
 	def dataSource
 	
-	def getDateAsISO8601String(date) {
-		SimpleDateFormat ISO8601FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		String result = ISO8601FORMAT.format(date);
-		result = result.substring(0, result.length()-2) + ":" + result.substring(result.length()-2);
-		return result;
-  	}
- 
-    def social2map = {t ->
-        [guid: t.socialId,
-         tags: t.tags,
-		 username: t.username,
-         starred: t.starred,
-		 x:t.x,
-		 y:t.y]
-    }
-	
 	def tag2map = {t ->
 		[guid: t.tag,
 		 tag: t.tag,
@@ -38,15 +22,6 @@ class SocialController {
 		x: t.x,
 		y:t.y]
 	}
-    
-    def comment2map = {t ->
-        [guid: t.id,
-         text: t.text,
-         social: t.social,
-		 username: t.username,
-         dateCreated: getDateAsISO8601String(t.dateCreated),
-         lastUpdated: getDateAsISO8601String(t.lastUpdated) ]
-    }
  
     def index = {
     	list()
@@ -57,7 +32,7 @@ class SocialController {
 
         render(contentType: "text/json") {
             content {
-                socials.each { social(comment2map(it)) }
+                socials.each { scl( it.this2map() ) }
             }
         }
     }
@@ -69,7 +44,7 @@ class SocialController {
  
             if (social) {
                 render(contentType: "text/json") {
-                    content(social2map(social))
+                    content( social.this2map() )
                 }
             }
             else {
@@ -114,7 +89,7 @@ class SocialController {
         println "Saving Social id="+social.socialId+" starred="+social.starred
         if (social.save()) {
             render(contentType: "text/json") {
-				content(social2map(social))
+				content(social.this2map())
 			}
         } else {
         	social.errors.each {
@@ -134,7 +109,7 @@ class SocialController {
     	if (comments) {
     		render(contentType: "text/json") {
 				content {
-					comments.each { comment(comment2map(it)) }
+					comments.each { comment(it.this2map()) }
 				}
 			}
     	} else {

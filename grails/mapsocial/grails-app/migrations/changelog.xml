@@ -426,4 +426,19 @@ select adjustByteaOutput();
             <column name="title" value="title"/>
         </insert>
     </changeSet>
+    <changeSet author="unicoletti" id="1326791384723-31" context="TEST" runAlways="true">
+        <comment>insert social data for tests</comment>
+     	<delete tableName="social">
+    	</delete>
+    	<insert tableName="social">
+            <column name="id" valueNumeric="1"/>
+            <column name="social_id" value="topp:states:1"/>
+            <column name="starred" valueBoolean="true"/>
+            <column name="tags" value="alpha,tango"/>
+            <column name="username" value="demo"/>
+            <column name="x" value="10.5"/>
+            <column name="y" value="20.4"/>
+            <column name="version" value="1"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
