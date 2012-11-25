@@ -137,6 +137,35 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
         assertEquals "tag not tango" , "tango", response[1].tag
         assertEquals "tag tango occurs more than 1" , 1, response[1].occurrences
     }
+
+    void testTagListWithoutArguments() {
+        controller.tags()
+        def response = JSON.parse(controller.response.contentAsString)?.content
+        
+        assertNull "found tags", response
+        assertEquals "status", 400, controller.renderArgs.status
+    }
+
+    void testTagListWithArguments() {
+        controller.params.tags="alpha,charlie" // charlie does not exists, alpha does
+        controller.params.bbox="0,0,30,30" // bbox contains the tag below
+        controller.tags()
+        def response = JSON.parse(controller.response.contentAsString)?.content
+        
+        assertEquals "tags not", 1, response.size()
+        assertEquals "id", 1, response[0].id
+        assertEquals "x", 10.5, response[0].x
+        assertEquals "y", 20.4, response[0].y
+    }
+    
+    void testTagListWithArgumentsWrongBBOX() {
+        controller.params.tags="alpha,charlie" // charlie does not exists, alpha does
+        controller.params.bbox="30,30,40,40" // bbox contains the tag below
+        controller.tags()
+        def response = JSON.parse(controller.response.contentAsString)?.content
+        
+        assertEquals "tags not", 0, response.size()
+    }
 }
 
 

@@ -138,26 +138,27 @@ class SocialController {
 	 * returns a JSON collection of tags geometries
 	 */
 	def tags = {
-		def bbox=params.bbox.split(",")
-		//println params.bbox
-		//println "abs(x0-x1)="+ Math.abs((bbox[0] as Double) - (bbox[2] as Double) )
-		//println "abs(y0-y1)="+ Math.abs((bbox[1] as Double) - (bbox[3] as Double) )
-		
-		def queryParams = (params.tags.split(",") as List)
-		def sql=Sql.newInstance(dataSource)
-		def query='select distinct s.id,s.x,s.y from social_tags as st, social as s where st.social_id=s.id '+
-			'and st.tag in ('+( queryParams.collect{"?"}.join(',') ) +') '+
-			'and s.x <= ? and s.x >= ? and s.y <= ? and s.y >= ?'
-		queryParams << (bbox[2].toDouble())
-		queryParams << (bbox[0].toDouble())
-		queryParams << (bbox[3].toDouble())
-		queryParams << (bbox[1].toDouble()) 
-		render(contentType: "text/json") {
-			content {
-				sql.eachRow( query, queryParams as List ) {
-					tag ( socialtag2map(it) )
-				}
-			}
+	    if(!params.bbox || !params.tags) {
+	        render text: "Missing bbox or tags parameters (both required)", status: 400
+	    } else {
+            def bbox=params.bbox.split(",")
+            
+            def queryParams = (params.tags.split(",") as List)
+            def sql=Sql.newInstance(dataSource)
+            def query='select distinct s.id,s.x,s.y from social_tags as st, social as s where st.social_id=s.id '+
+                'and st.tag in ('+( queryParams.collect{"?"}.join(',') ) +') '+
+                'and s.x <= ? and s.x >= ? and s.y <= ? and s.y >= ?'
+            queryParams << (bbox[2].toDouble())
+            queryParams << (bbox[0].toDouble())
+            queryParams << (bbox[3].toDouble())
+            queryParams << (bbox[1].toDouble()) 
+            render(contentType: "text/json") {
+                content {
+                    sql.eachRow( query, queryParams as List ) {
+                        tag ( socialtag2map(it) )
+                    }
+                }
+            }
 		}
 	}
 }

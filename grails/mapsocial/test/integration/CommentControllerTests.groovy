@@ -64,6 +64,35 @@ class CommentControllerTests extends grails.test.ControllerUnitTestCase {
         assertEquals "created", "2012-11-11T01:02:30+01:00", response.content[0]['dateCreated']
         assertEquals "social", "topp:states:1", response.content[0]['social']
     }
+    
+    void testCreateComment() {
+        controller.params.id="1"
+        controller.request.content = ''' \
+            { text: "some text", "social":"topp:states:1" } \
+            '''.stripIndent().getBytes()
+        controller.save()
+
+        println controller.response.contentAsString
+        def response = JSON.parse(controller.response.contentAsString)?.content
+        assertTrue "contentType", controller.response.contentType.contains("json")
+        assertEquals "text", "some text", response['text']
+        assertEquals "username", "demo", response['username']
+        assertNotNull "id is null", response['guid']
+    }
+    
+    void testDeleteComment() {
+        controller.params.id="1"
+        controller.delete()
+
+        assertEquals "empty response", "", controller.response.contentAsString
+    }
+    
+    void testDeleteNonExistentComment() {
+        controller.params.id="0"
+        controller.delete()
+
+        assertEquals "status", 404, controller.renderArgs.status
+    }
 }
 
 
