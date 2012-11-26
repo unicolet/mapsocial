@@ -1,6 +1,8 @@
 Mapsocial is the name of the Grails backend for Mappu
 =====================================================
 
+[![Build Status](http://jenkins.mappu.org/jenkins/job/mappu-grails/badge/icon)](http://jenkins.mappu.org/jenkins/job/mappu-grails/)
+
 Whats is Mappu? [Mappu is all this](http://unicolet.github.com/mappu/ "Mappu")
 
 Mapsocial is the component that provides an (almost) RESTful interface to Mappu
