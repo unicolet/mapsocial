@@ -19,8 +19,9 @@ class SocialController {
 	
 	def socialtag2map = {t->
 		[id: t.id,
-		x: t.x,
-		y:t.y]
+         tags: t.tags,
+		 x: t.x,
+		 y:t.y]
 	}
  
     def index = {
@@ -145,7 +146,7 @@ class SocialController {
             
             def queryParams = (params.tags.split(",") as List)
             def sql=Sql.newInstance(dataSource)
-            def query='select distinct s.id,s.x,s.y from social_tags as st, social as s where st.social_id=s.id '+
+            def query='select distinct s.id,s.tags,s.x,s.y from social_tags as st, social as s where st.social_id=s.id '+
                 'and st.tag in ('+( queryParams.collect{"?"}.join(',') ) +') '+
                 'and s.x <= ? and s.x >= ? and s.y <= ? and s.y >= ?'
             queryParams << (bbox[2].toDouble())

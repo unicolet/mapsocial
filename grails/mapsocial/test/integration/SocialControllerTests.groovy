@@ -156,6 +156,7 @@ class SocialControllerTests extends grails.test.ControllerUnitTestCase {
         assertEquals "id", 1, response[0].id
         assertEquals "x", 10.5, response[0].x
         assertEquals "y", 20.4, response[0].y
+        assertNotNull "tags", response[0].tags
     }
     
     void testTagListWithArgumentsWrongBBOX() {
